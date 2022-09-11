@@ -8,7 +8,7 @@ module.exports = {
     options: {
       "url": "https://cms.fiftyml.com/graphql"
     }
-  }, "gatsby-plugin-image", "gatsby-plugin-sharp", "gatsby-transformer-sharp", {
+  }, "gatsby-plugin-image", "gatsby-plugin-preact","gatsby-plugin-sharp", "gatsby-transformer-sharp", {
     resolve: 'gatsby-plugin-google-analytics',
     options: {
       "trackingId": "G-4RR287107Q"

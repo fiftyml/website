@@ -1,0 +1,74 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+
+
+/* 
+    Contents: 
+        - Basics
+        - Typography
+        - Colours
+        - Buttons
+*/
+
+/* 
+    Basics
+*/
+
+:root {
+    font-family: 'Inter', sans-serif;
+    font-size: 112.5%;
+}
+
+
+/* 
+    Typography
+*/
+
+h1, h2, h3, h4, h5,
+.h1, .h2, .h3, .h4, .h5 {
+    font-weight: 500
+}
+
+a, p {
+    font-weight: 300;
+}
+
+bold, strong {
+    font-weight: 400;
+}
+
+h1, .h1 {
+    font-size: 2.18rem;
+    margin-bottom: 1rem;
+    line-height: 1.5em;
+}
+
+h2, .h2 {
+    font-size: 1.87rem;
+    margin-bottom: 1rem;
+    line-height: 1.5em;
+}
+
+h3, .h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.5em;
+}
+
+p {
+    margin-bottom: 1rem;
+    line-height: 1.6em;
+}
+
+/* 
+    Post
+*/
+
+.post-content a {
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 6px;
+    text-decoration-skip-ink: auto;
+    opacity: 0.6;
+}

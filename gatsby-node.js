@@ -13,15 +13,15 @@ exports.createPages = async ({ graphql, actions }) => {
             allWpPost: { nodes: allPosts },
         },
     } = await graphql(`
-    query {
-      allWpPost {
-        nodes {
-          id
-          uri
+      query {
+        allWpPost {
+          nodes {
+            id
+            uri
+          }
         }
       }
-    }
-  `)
+    `)
 
     const posts = allPosts
 
@@ -40,6 +40,42 @@ exports.createPages = async ({ graphql, actions }) => {
             },
         })
     })
+
+  // Get and Create All Pages
+  //////////////////////////////////////////////////////////////////////////////
+
+  const {
+    data: {
+      allWpPage: { nodes: allPages },
+    },
+  } = await graphql(`
+      query {
+        allWpPage {
+          nodes {
+            id
+            uri
+          }
+        }
+      }
+    `)
+
+  const pages = allPages
+
+  const pageTemplate = path.resolve(`./src/templates/page.js`)
+
+  allPages.forEach(page => {
+    createPage({
+      // will be the url for the page
+      path: page.uri,
+      // specify the component template of your choice
+      component: slash(pageTemplate),
+      // In the ^template's GraphQL query, 'id' will be available
+      // as a GraphQL variable to query for this post's data.
+      context: {
+        id: page.id,
+      },
+    })
+  })
 
 
     // Get and Create All  Categories
@@ -134,7 +170,6 @@ exports.createPages = async ({ graphql, actions }) => {
         nodes {
           id
           uri
-          slug
         }
       }
     }
@@ -193,25 +228,6 @@ exports.createPages = async ({ graphql, actions }) => {
             },
         })
     })
-
-
-    // Get and Create All Pages
-    //////////////////////////////////////////////////////////////////////////////
-
-    const {
-        data: {
-            allWpPage: { nodes: allPages },
-        },
-    } = await graphql(`
-    query {
-      allWpPage {
-        nodes {
-          id
-          uri
-        }
-      }
-    }
-  `)
 
 
 }

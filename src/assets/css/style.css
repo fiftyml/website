@@ -324,8 +324,15 @@ select#ingredientSelect {
             margin-bottom: 5em;
     }
 
+    .post-image-row .col-md-7 {
+        min-height: 7em;
+            align-items: end;
+            display: flex;
+    }
+
     .post-image-row .big {
             margin-bottom: 0;
+            margin-top: 0;
     }
 
     .post-image-row .image-holder {

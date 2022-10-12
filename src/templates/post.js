@@ -73,7 +73,7 @@ const post = ({ data, pageContext }) => {
             <div className="container post-image-row">
                 <div className="row">
                     <div className="col-12 col-md-7">
-                        <p className="big">If you have noticed that your Anthurium Clarinervium has started to develop curling leaves, then it definitely means something isn’t quite right.</p>
+                      <p className="big">{data.wpPost.post.postIntro}</p>
                     </div>
                     <div className="col-12 col-md-5 image-holder">
                         <GatsbyImage image={image} alt="Sausage" />
@@ -205,6 +205,7 @@ export const query = graphql`
         }
       }
       post {
+        postIntro
         faqsTitle
         faqs {
           answer

@@ -74,7 +74,7 @@ const Footer = () => {
                         </div>
                     </div>
                 </div>
-                <div className="footer-row social-row">
+                <div className="footer-row">
                     <hr />
                     <div className="container">
                         <div className="row">
@@ -118,7 +118,7 @@ const Footer = () => {
                         </div>
                     </div>
                 </div>
-                <div className="footer-row social-row">
+                <div className="footer-row brand-row">
                     <hr />
                     <div className="container">
                         <div className="row">

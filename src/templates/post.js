@@ -2,11 +2,12 @@ import * as React from "react"
 import { graphql } from 'gatsby';
 import Seo from 'gatsby-plugin-wpgraphql-seo';
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import Helmet from "react-helmet"
+
 
 import Layout from '../components/layout.js';
 
 import star from "../assets/images/star.svg"
-import wiggle from "../assets/images/wiggle.svg"
 
 var strftime = require('strftime')
 
@@ -14,12 +15,22 @@ const post = ({ data, pageContext }) => {
     var title = data.wpPost.title
     var categories = data.wpPost.categories.nodes
     const image = getImage(data.wpPost.featuredImage.node.localFile)
-
-
+    var faqs = []
+    var formattedFAQs = []
     if (data.wpPost.post.faqs) {
-      var faqs = data.wpPost.post.faqs
+      let faqs = data.wpPost.post.faqs
+      for (const faq of faqs) {
+        formattedFAQs.push({
+          "@type": "Question",
+          "name": faq.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer.replace(/(<([^>]+)>)/gi, "")
+          }
+        })
+      }
     } else {
-      var faqs = []
+      let faqs = []
     }
 
     var otherPosts = data.allWpPost.nodes
@@ -27,7 +38,19 @@ const post = ({ data, pageContext }) => {
     return (
         <Layout>
             <Seo post={data.wpPost} />
-            
+            <Helmet>
+              {formattedFAQs.length > 0 &&
+                <script type="application/ld+json">
+                  {`
+                    {
+                      "@context": "https://schema.org",
+                      "@type": "FAQPage",
+                      "mainEntity": ${JSON.stringify(formattedFAQs)}
+                    }
+                  `}
+                </script>
+              }
+            </Helmet>
             <div className="header">
                 <div className="header-row empty-row">
                     <hr />

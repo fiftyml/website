@@ -75,7 +75,7 @@ const IngredientsPage = ({ data }) => {
                                 <div className="wiggle mobile-hide"></div>
                             </div>
                             <div className="col-auto text-right">
-                                <h1>All Ingredients</h1>
+                                <h1 >All Ingredients</h1>
                             </div>
                         </div>
                     </div>

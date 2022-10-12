@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from "react"
 import { graphql } from 'gatsby';
 import Seo from 'gatsby-plugin-wpgraphql-seo';
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import Helmet from "react-helmet"
 
 import Layout from '../components/layout.js';
 
@@ -16,6 +17,32 @@ const Recipe = ({ data, pageContext}) => {
 
     var rootIngredients = data.wpRecipe.recipeInformation.ingredients
     var formattedIngredients = []
+
+    var formattedFAQs = []
+    if (data.wpRecipe.recipeInformation.faqs) {
+      var faqs = data.wpRecipe.recipeInformation.faqs
+      for (const faq of faqs) {
+        formattedFAQs.push({
+          "@type": "Question",
+          "name": faq.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer.replace(/(<([^>]+)>)/gi, "")
+          }
+        })
+      }
+    } else {
+      var faqs = []
+    }
+
+    var formattedSteps = []
+
+    for (const step of data.wpRecipe.recipeInformation.method) {
+      formattedSteps.push({
+        "@type": "HowToStep",
+        "text": step.step.replace(/(<([^>]+)>)/gi, ""),
+      })
+    }
 
     for (let i=0; i < rootIngredients.length; i++) {
       if (rootIngredients[i].otherMeasurement) {
@@ -60,6 +87,43 @@ const Recipe = ({ data, pageContext}) => {
     return (
         <Layout>
           <Seo post={data.wpRecipe} />
+          <Helmet>
+            {formattedFAQs.length > 0 &&
+              <script type="application/ld+json">
+                {`
+                      {
+                        "@context": "https://schema.org",
+                        "@type": "FAQPage",
+                        "mainEntity": ${JSON.stringify(formattedFAQs)}
+                      }
+                    `}
+              </script>
+            }
+          <script type="application/ld+json">
+            {`
+                        {
+                          "@context": "https://schema.org/",
+                          "@type": "Recipe",
+                          "name": "${title}",
+                          "image": "${data.wpRecipe.recipeInformation.image.sourceUrl}",
+                          "description": "${recipe.recipeInformation.introText}",
+                          "keywords": "",
+                          "author": {
+                            "@type": "Person",
+                            "name": "fifty_ml"
+                          },
+                          "datePublished": "${data.wpRecipe.date}",
+                          "prepTime": "PT5M",
+                          "cookTime": "PT0M",
+                          "totalTime": "PT5M",
+                          "recipeCategory": "drinks",
+                          "recipeCuisine": "Cocktails",
+                          "recipeYield": "1",
+                          "recipeInstructions": ${JSON.stringify(formattedSteps)}
+                        } `}
+          </script>
+            
+          </Helmet>
           <div className="header">
             <div className="header-row empty-row">
               <hr />
@@ -198,34 +262,38 @@ const Recipe = ({ data, pageContext}) => {
             </div>
           </div>
         </div>
-
-        <div className="container" style={{ marginTop: "5em" }}>
-          <div className="row wiggle-header">
-            <div className="col-auto text-left">
-              <h2>{title} FAQs</h2>
-            </div>
-            <div className="col">
-              <div className="wiggle mobile-hide"></div>
-            </div>
-          </div>
-        </div>
-        <hr style={{ marginTop: 0, marginBottom: "3em" }} />
-        <div className="container">
-          <div className="row">
-            <div className="col-12 col-md-8 offset-md-4">
-              <table className="basic-table m-mt-2 m-mb-3">
-                {recipe.recipeInformation.faqs.map(faq => {
-                  return (
-                    <tr>
-                      <td><p>{faq.question}</p></td>
-                      <td><p>{faq.answer}</p></td>
-                    </tr>
-                  )
-                })}
-              </table>
+        
+        {faqs.length > 0 &&
+        <>
+          <div className="container" style={{ marginTop: "5em" }}>
+            <div className="row wiggle-header">
+              <div className="col-auto text-left">
+                <h2>{title} FAQs</h2>
+              </div>
+              <div className="col">
+                <div className="wiggle mobile-hide"></div>
+              </div>
             </div>
           </div>
-        </div>
+          <hr style={{ marginTop: 0, marginBottom: "3em" }} />
+          <div className="container">
+            <div className="row">
+              <div className="col-12 col-md-8 offset-md-4">
+                <table className="basic-table m-mt-2 m-mb-3">
+                  {faqs.map(faq => {
+                    return (
+                      <tr>
+                        <td><p>{faq.question}</p></td>
+                        <td><p>{faq.answer}</p></td>
+                      </tr>
+                    )
+                  })}
+                </table>
+              </div>
+            </div>
+          </div>
+        </>
+        }
 
         {recipe.recipeInformation.contentBlocks.map((block, index) => {
           if ((index + 1) % 2) {
@@ -319,6 +387,7 @@ export const query = graphql`
         }
         image {
           altText
+          sourceUrl
           localFile {
               childImageSharp {
                   gatsbyImageData(quality: 80)

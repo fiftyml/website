@@ -24,6 +24,18 @@ module.exports = {
       },
     },
   },
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: 'fifty_ml',
+        short_name: 'fifty_ml',
+        start_url: '/',
+        background_color: '#fff',
+        theme_color: '#fff',
+        display: 'standalone',
+        icon: 'src/images/icon.png',
+      },
+    },
   {
     resolve: 'gatsby-source-filesystem',
     options: {

@@ -14,11 +14,17 @@ module.exports = {
   "gatsby-plugin-sharp", 
   "gatsby-transformer-sharp", 
   {
-    resolve: 'gatsby-plugin-google-analytics',
+    resolve: `gatsby-plugin-google-gtag`,
     options: {
-      "trackingId": "G-4RR287107Q"
-    }
-  }, {
+      trackingIds: [
+        "G-4RR287107Q",
+      ],
+      pluginConfig: {
+        head: true
+      },
+    },
+  },
+  {
     resolve: 'gatsby-source-filesystem',
     options: {
       "name": "images",

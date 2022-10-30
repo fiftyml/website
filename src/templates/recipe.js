@@ -245,7 +245,7 @@ const Recipe = ({ data, pageContext}) => {
         <hr style={{ marginTop: 0, marginBottom: "3em" }} />
         <div className="container">
           <div className="row">
-            <div className="col-12 col-md-5 offset-md-2" dangerouslySetInnerHTML={{ __html: recipe.recipeInformation.history }}>
+            <div className="col-12 col-md-7" dangerouslySetInnerHTML={{ __html: recipe.recipeInformation.history }}>
             </div>
             <div className="col-12 col-md-4 offset-md-1" style={{ display: "flex", flexDirection: "column" }}>
                 <table className="basic-table m-mt-2 m-mb-3">
@@ -278,7 +278,7 @@ const Recipe = ({ data, pageContext}) => {
           <hr style={{ marginTop: 0, marginBottom: "3em" }} />
           <div className="container">
             <div className="row">
-              <div className="col-12 col-md-8 offset-md-4">
+              <div className="col-12 col-md-10 offset-md-2">
                 <table className="basic-table m-mt-2 m-mb-3">
                   {faqs.map(faq => {
                     return (
@@ -295,54 +295,57 @@ const Recipe = ({ data, pageContext}) => {
         </>
         }
 
-        {recipe.recipeInformation.contentBlocks.map((block, index) => {
-          if ((index + 1) % 2) {
-            return (
-              <>
-                <div className="container" style={{ marginTop: "5em" }}>
-                  <div className="row wiggle-header">
-                    <div className="col">
-                      <div className="wiggle mobile-hide"></div>
-                    </div>
-                    <div className="col-auto text-right">
-                      <h2>{block.title}</h2>
-                    </div>
-                  </div>
-                </div>
-                <hr style={{ marginTop: 0, marginBottom: "3em" }} />
-                <div className="container">
-                  <div className="row">
-                    <div className="col-12 col-md-5 offset-md-2" dangerouslySetInnerHTML={{ __html: block.content }}>
+        {recipe.recipeInformation.contentBlocks &&
+        <>
+          {recipe.recipeInformation.contentBlocks.map((block, index) => {
+            if ((index + 1) % 2) {
+              return (
+                <>
+                  <div className="container" style={{ marginTop: "5em" }}>
+                    <div className="row wiggle-header">
+                      <div className="col">
+                        <div className="wiggle mobile-hide"></div>
+                      </div>
+                      <div className="col-auto text-right">
+                        <h2>{block.title}</h2>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </>
-            )
-          } else {
-            return (
-              <>
-                <div className="container" style={{ marginTop: "5em" }}>
-                  <div className="row wiggle-header">
-                    <div className="col-auto text-left">
-                      <h2>{block.title}</h2>
-                    </div>
-                    <div className="col">
-                      <div className="wiggle mobile-hide"></div>
+                  <hr style={{ marginTop: 0, marginBottom: "3em" }} />
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-12 col-md-5 offset-md-2" dangerouslySetInnerHTML={{ __html: block.content }}>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <hr style={{ marginTop: 0, marginBottom: "3em" }} />
-                <div className="container">
-                  <div className="row">
-                    <div className="col-12 col-md-7 offset-md-4" dangerouslySetInnerHTML={{ __html: block.content }}>
+                </>
+              )
+            } else {
+              return (
+                <>
+                  <div className="container" style={{ marginTop: "5em" }}>
+                    <div className="row wiggle-header">
+                      <div className="col-auto text-left">
+                        <h2>{block.title}</h2>
+                      </div>
+                      <div className="col">
+                        <div className="wiggle mobile-hide"></div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </>
-            )
-          }
-        })}
-        
+                  <hr style={{ marginTop: 0, marginBottom: "3em" }} />
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-12 col-md-7 offset-md-4" dangerouslySetInnerHTML={{ __html: block.content }}>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )
+            }
+          })}
+        </>
+        }
         
 
           
